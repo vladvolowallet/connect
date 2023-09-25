@@ -5,9 +5,9 @@ import { SignatureData } from './signature';
 import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
 export enum WalletProviders {
-  Hiro,
-  AsignSafe,
-  Blockstack,
+  LeatherWalletProvider = 'LeatherWalletProvider',
+  AsignaSafeProvider = 'AsignaSafeProvider',
+  BlockstackProvider = 'BlockstackProvider',
 }
 export interface StacksProvider {
   /** @deprecated */

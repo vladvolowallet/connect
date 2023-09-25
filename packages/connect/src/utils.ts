@@ -1,5 +1,7 @@
 import { StacksProvider, WalletProviders } from "./types";
 
+export const STACKS_PROVIDER_KEY = 'stacks-provider';
+
 export function getStacksProvider() {
   return getStoredWalletProvider() || getDefaultProvider();
 }
@@ -8,7 +10,7 @@ export function getBlockStackProvider() {
   return window.BlockstackProvider;
 }
 
-export function getHiroProvider() {
+export function getLeatherProvider() {
   return window.HiroWalletProvider;
 }
 
@@ -21,26 +23,27 @@ export function getDefaultProvider() {
 }
 
 export function isStacksWalletInstalled() {
-  return !!(getHiroProvider() || getAsignaSafeProvider() || getBlockStackProvider() || getDefaultProvider());
+  return !!(getLeatherProvider() || getAsignaSafeProvider() || getBlockStackProvider() || getDefaultProvider());
 }
 
 export const walletProviderToEnum = (provider: StacksProvider) => {
   if (provider === getAsignaSafeProvider())
-    return WalletProviders.AsignSafe;
+    return WalletProviders.AsignaSafeProvider;
   if (provider === getBlockStackProvider())
-    return WalletProviders.Blockstack;
-  return WalletProviders.Hiro;
+    return WalletProviders.BlockstackProvider;
+  return WalletProviders.LeatherWalletProvider;
 }
 
 export const getStoredWalletProvider = () => {
-  const provider = Number(localStorage.getItem('wallet_key')||0);
+  const provider = localStorage.getItem(STACKS_PROVIDER_KEY);
+  console.log('HIER', provider);
   switch (provider)
   {
-    case WalletProviders.Hiro:
-      return getHiroProvider();
-    case WalletProviders.AsignSafe:
+    case WalletProviders.LeatherWalletProvider:
+      return getLeatherProvider();
+    case WalletProviders.AsignaSafeProvider:
       return getAsignaSafeProvider();
-    case WalletProviders.Blockstack:
+    case WalletProviders.BlockstackProvider:
       return getBlockStackProvider();
     default:
       return getDefaultProvider();

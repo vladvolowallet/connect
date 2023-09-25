@@ -2,7 +2,7 @@ import { AppConfig, UserSession } from '@stacks/auth';
 import { decodeToken } from 'jsontokens';
 import type { AuthOptions, AuthResponsePayload, StacksProvider } from './types';
 
-import { getStacksProvider, walletProviderToEnum } from './utils';
+import { STACKS_PROVIDER_KEY, getStacksProvider, walletProviderToEnum } from './utils';
 
 export const defaultAuthURL = 'https://app.blockstack.org';
 
@@ -38,14 +38,10 @@ export const getOrCreateUserSession = (userSession?: UserSession): UserSession =
   return userSession;
 };
 
-const updateSessionDataWithProvider = (
+const updateStorageWithAuthProvider = (
   provider: StacksProvider,
-  userSession: UserSession,
 ) => {
-  const storedData = userSession.store.getSessionData();
-  storedData.etags.walletProvider = walletProviderToEnum(provider).toString();
-  userSession.store.setSessionData(storedData);
-  localStorage.setItem('wallet_key', walletProviderToEnum(provider).toString());
+  localStorage.setItem(STACKS_PROVIDER_KEY, walletProviderToEnum(provider).toString());
 }
 
 export const authenticate = async (
@@ -64,7 +60,7 @@ export const authenticate = async (
     appDetails,
   } = authOptions;
   const userSession = getOrCreateUserSession(_userSession);
-  updateSessionDataWithProvider(provider, userSession);
+  updateStorageWithAuthProvider(provider);
   if (userSession.isUserSignedIn()) {
     userSession.signUserOut();
   }
