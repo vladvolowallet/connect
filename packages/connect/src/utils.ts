@@ -36,7 +36,6 @@ export const walletProviderToEnum = (provider: StacksProvider) => {
 
 export const getStoredWalletProvider = () => {
   const provider = localStorage.getItem(STACKS_PROVIDER_KEY);
-  console.log('HIER', provider);
   switch (provider)
   {
     case WalletProviders.LeatherWalletProvider:
