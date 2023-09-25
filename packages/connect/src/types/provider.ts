@@ -4,6 +4,11 @@ import { PsbtData } from './bitcoin';
 import { SignatureData } from './signature';
 import { FinishedTxPayload, SponsoredFinishedTxPayload } from './transactions';
 
+export enum WalletProviders {
+  Hiro,
+  AsignSafe,
+  Blockstack,
+}
 export interface StacksProvider {
   /** @deprecated */
   getURL: () => Promise<string>;
@@ -49,5 +54,7 @@ declare global {
   interface Window {
     BlockstackProvider?: BlockstackProvider;
     StacksProvider?: StacksProvider;
+    AsignaSafeProvider?: StacksProvider;
+    HiroWalletProvider?: StacksProvider;
   }
 }
